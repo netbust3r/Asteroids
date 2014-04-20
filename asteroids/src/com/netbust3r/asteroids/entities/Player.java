@@ -1,122 +1,148 @@
 package com.netbust3r.asteroids.entities;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 import com.netbust3r.asteroids.main.Game;
 
 public class Player extends SpaceObject{
+
+
+	private final int MAX_BULLETS = 4;
+	private ArrayList<Bullet> bullets;
 	
-	private float[] flamex_;
-	private float[] flamey_;
+	private float[] flamex;
+	private float[] flamey;
 	
-	private boolean left_;
-	private boolean right_;
-	private boolean up_;
+	private boolean left;
+	private boolean right;
+	private boolean up;
 	
-	private float maxSpeed_;
-	private float acceleration_;
-	private float deceleration_;
-	private float accelerationTimer_;
+	private float maxSpeed;
+	private float acceleration;
+	private float deceleration;
+	private float accelerationTimer;
 	
-	public Player()	{
+	public Player(ArrayList<Bullet> bullets)	{
 		
-		x_ = Game.WIDTH / 2;
-		y_ = Game.HEIGTH / 2;
+		this.bullets = bullets;
+
+		x = Game.WIDTH / 2;
+		y = Game.HEIGTH / 2;
 		
-		maxSpeed_ = 300;
-		acceleration_ = 200;
-		deceleration_ = 10;
-		accelerationTimer_ = 0;
+		maxSpeed = 300;
+		acceleration = 200;
+		deceleration = 10;
+		accelerationTimer = 0;
 		
-		shapex_ = new float[4];
-		shapey_ = new float[4];	
+		shapex = new float[4];
+		shapey = new float[4];	
 		
-		flamex_ = new float[3];
-		flamey_ = new float[3];
+		flamex = new float[3];
+		flamey = new float[3];
 		
-		radians_ = 3.1415f / 2;
-		rotationSpeed_ = 3;
+		radians = 3.1415f / 2;
+		rotationSpeed = 3;
 	}
 	
 	private void setShape(){
-		shapex_[0] = x_ + MathUtils.cos(radians_) * 8;
-		shapey_[0] = y_ + MathUtils.sin(radians_) * 8;
+		shapex[0] = x + MathUtils.cos(radians) * 8;
+		shapey[0] = y + MathUtils.sin(radians) * 8;
 
-		shapex_[1] = x_ + MathUtils.cos(radians_ - 4 * 3.1415f / 5) * 8;
-		shapey_[1] = y_ + MathUtils.sin(radians_ - 4 * 3.1115f / 5) * 8;
+		shapex[1] = x + MathUtils.cos(radians - 4 * 3.1415f / 5) * 8;
+		shapey[1] = y + MathUtils.sin(radians - 4 * 3.1115f / 5) * 8;
 	
-		shapex_[2] = x_ + MathUtils.cos(radians_ + 3.1415f) * 5;
-		shapey_[2] = y_ + MathUtils.sin(radians_ + 3.1415f) * 5;
+		shapex[2] = x + MathUtils.cos(radians + 3.1415f) * 5;
+		shapey[2] = y + MathUtils.sin(radians + 3.1415f) * 5;
 		
-		shapex_[3] = x_ + MathUtils.cos(radians_ + 4 * 3.1415f / 5) * 8;
-		shapey_[3] = y_ + MathUtils.sin(radians_ + 4 * 3.1415f / 5) * 8;
+		shapex[3] = x + MathUtils.cos(radians + 4 * 3.1415f / 5) * 8;
+		shapey[3] = y + MathUtils.sin(radians + 4 * 3.1415f / 5) * 8;
 	}
 	
 	private void setFlame(float dt){
-		flamex_[0] = x_ + MathUtils.cos(radians_ - 5 * 3.1415f / 6) * 5;
-		flamey_[0] = y_ + MathUtils.sin(radians_ - 5 * 3.1415f / 6) * 5;
+		flamex[0] = x + MathUtils.cos(radians - 5 * 3.1415f / 6) * 5;
+		flamey[0] = y + MathUtils.sin(radians - 5 * 3.1415f / 6) * 5;
 		
-		flamex_[1] = x_ + MathUtils.cos(radians_ - 3.1415f) * (6 + accelerationTimer_ * 100);
-		flamey_[1] = y_ + MathUtils.sin(radians_ - 3.1415f) * (6 + accelerationTimer_ * 100);
+		flamex[1] = x + MathUtils.cos(radians - 3.1415f) * (6 + accelerationTimer * 100);
+		flamey[1] = y + MathUtils.sin(radians - 3.1415f) * (6 + accelerationTimer * 100);
 		
-		flamex_[2] = x_ + MathUtils.cos(radians_ + 5 * 3.1415f / 6) * 5;
-		flamey_[2] = y_ + MathUtils.sin(radians_ + 5 * 3.1415f / 6) * 5;
+		flamex[2] = x + MathUtils.cos(radians + 5 * 3.1415f / 6) * 5;
+		flamey[2] = y + MathUtils.sin(radians + 5 * 3.1415f / 6) * 5;
 		
 	}
+
+	public void shoot(){
+		if (bullets.size() == MAX_BULLETS)
+			return;
+		else bullets.add(new Bullet(x, y, radians));
+
+	}
 	
-	
-	
-	public void setLeft(boolean b){ left_ = b;}
-	public void setRight(boolean b){ right_ = b;}
-	public void setUp(boolean b){ up_ = b;}
+	public void setLeft(boolean b){ 
+		left = b;
+	}
+
+	public void setRight(boolean b){ 
+		right = b;
+	}
+
+	public void setUp(boolean b){ 
+		up = b;
+	}
 	
 	public void update(float dt){
 		
 		//turning
-		if(left_){
-			radians_ += rotationSpeed_ * dt;
+		if(left){
+			radians += rotationSpeed * dt;
 		}
-		else if(right_){
-			radians_ -= rotationSpeed_ * dt;
+		else if(right){
+			radians -= rotationSpeed * dt;
 		}
 		
 		//accelerating
-		if(up_){
-			dx_ += MathUtils.cos(radians_) * acceleration_ * dt;
-			dy_ += MathUtils.sin(radians_) * acceleration_ * dt;
+		if(up){
+			dx += MathUtils.cos(radians) * acceleration * dt;
+			dy += MathUtils.sin(radians) * acceleration * dt;
 			
-			accelerationTimer_ += dt;
-			if(accelerationTimer_ > 0.1)
-				accelerationTimer_ = 0;
+			accelerationTimer += dt;
+			if(accelerationTimer > 0.1)
+				accelerationTimer = 0;
 		}
 		else
-			accelerationTimer_ = 0;
+			accelerationTimer = 0;
 		
 		//deceleration (vec = our speed)
-		float vec = (float) Math.sqrt(dx_ * dx_ + dy_ * dy_);
+		float vec = (float) Math.sqrt(dx * dx + dy * dy);
 		if (vec < 0) {
-			dx_=0;
-			dy_=0;
+			dx=0;
+			dy=0;
 		}
 		if (vec > 0){
-			dx_ -= (dx_ / vec) * deceleration_ *dt;
-			dy_ -= (dy_ / vec) * deceleration_ *dt;;
+			dx -= (dx / vec) * deceleration *dt;
+			dy -= (dy / vec) * deceleration *dt;;
 		}
-		if(vec > maxSpeed_){
-			dx_ = (dx_ / vec) * maxSpeed_;
-			dy_ = (dy_ / vec) * maxSpeed_;
+		if(vec > maxSpeed){
+			dx = (dx / vec) * maxSpeed;
+			dy = (dy / vec) * maxSpeed;
 		}
 		
 		// set position
-		x_ += dx_ * dt;
-		y_ += dy_ * dt;
+		/*
+		*x = x0 + u * dt + a * dt^2 = x0 + (a * dt) * dt = x0 + dx *dt
+		*u = 0
+		*a * dt * cos(radians)= dx
+		*/
+		x += dx * dt;
+		y += dy * dt;
 		
 		//set shape
 		setShape();
 		
 		//set flame
-		if(up_) {
+		if(up) {
 			setFlame(dt);
 		}
 
@@ -131,20 +157,20 @@ public class Player extends SpaceObject{
 		sr.begin(ShapeType.Line);
 		
 		//draw ship
-		for(int i = 0, j = shapex_.length -1;
-				i < shapex_.length;
+		for(int i = 0, j = shapex.length -1;
+				i < shapex.length;
 				j = i++){
 			
-			sr.line(shapex_[i],shapey_[i],shapex_[j],shapey_[j]);
+			sr.line(shapex[i],shapey[i],shapex[j],shapey[j]);
 		}
 		
 		//draw flame
-		if(up_){
-			for(int i = 0, j = flamex_.length -1;
-					i < flamex_.length;
+		if(up){
+			for(int i = 0, j = flamex.length -1;
+					i < flamex.length;
 					j = i++){
 				
-				sr.line(flamex_[i],flamey_[i],flamex_[j],flamey_[j]);
+				sr.line(flamex[i],flamey[i],flamex[j],flamey[j]);
 			}
 		}
 		

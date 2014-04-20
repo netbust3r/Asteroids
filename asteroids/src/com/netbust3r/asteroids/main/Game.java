@@ -15,7 +15,7 @@ public class Game implements ApplicationListener   {
 	
 	public static OrthographicCamera cam;
 	
-	private GameStateManager gsm_; 
+	private GameStateManager gsm; 
 	
 	@Override
 	public void create() {
@@ -31,7 +31,7 @@ public class Game implements ApplicationListener   {
 				new GameInputProcessor()
 				);
 		
-		gsm_ = new GameStateManager();
+		gsm = new GameStateManager();
 	}
 
 	@Override
@@ -42,8 +42,8 @@ public class Game implements ApplicationListener   {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		gsm_.update(Gdx.graphics.getDeltaTime());
-		gsm_.draw();
+		gsm.update(Gdx.graphics.getDeltaTime());
+		gsm.draw();
 		
 		GameKeys.update();
 	}

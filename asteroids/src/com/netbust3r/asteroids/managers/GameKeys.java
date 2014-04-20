@@ -2,10 +2,10 @@ package com.netbust3r.asteroids.managers;
 
 public class GameKeys {
 	
-	private static boolean[] keys_;
-	private static boolean[] pkeys_;
+	private static boolean[] keys;
+	private static boolean[] pkeys;
 	
-	private static final int NUM_KEYS_ = 8;
+	private static final int NUMKEYS = 8;
 	
 	public static final int UP = 0;
 	public static final int LEFT = 1;
@@ -17,25 +17,25 @@ public class GameKeys {
 	public static final int SHIFT = 7;
 	
 	static{
-		keys_ = new boolean[NUM_KEYS_];
-		pkeys_ = new boolean[NUM_KEYS_];
+		keys = new boolean[NUMKEYS];
+		pkeys = new boolean[NUMKEYS];
 	}
 	
 	public static void update(){
-		for(int i = 0; i < NUM_KEYS_; i++) {
-			pkeys_[i] = keys_ [i];
+		for(int i = 0; i < NUMKEYS; i++) {
+			pkeys[i] = keys [i];
 		}
 	}
 	
 	public static void setKey(int k, boolean b){
-		keys_[k] = b;
+		keys[k] = b;
 	}
 	
 	public static boolean isDown(int k){
-		return keys_[k];
+		return keys[k];
 	}
 	
 	public static boolean isPressed(int k){
-		return keys_[k] && !pkeys_[k];
+		return keys[k] && !pkeys[k];
 	}
 }

@@ -6,7 +6,7 @@ import com.netbust3r.asteroids.gamestates.PlayState;
 public class GameStateManager {
 	
 	//current game state
-	private GameState gameState_;
+	private GameState gameState;
 	
 	public static final int MENU = 0;
 	public static final int PLAY = 87987;
@@ -16,21 +16,21 @@ public class GameStateManager {
 	}
 	
 	public void setState(int state){
-		if (gameState_ != null) 
-			gameState_.dispose();
+		if (gameState != null) 
+			gameState.dispose();
 		if(state == MENU){
-			//gameState_ = new MenuState(this);
+			//gameState = new MenuState(this);
 		}
 		if(state == PLAY){
-			gameState_ = new PlayState(this); 
+			gameState = new PlayState(this); 
 		}
 	}
 
 	public void update(float dt){
-		gameState_.update(dt);
+		gameState.update(dt);
 	}
 	
 	public void draw(){
-		gameState_.draw();
+		gameState.draw();
 	}
 }
